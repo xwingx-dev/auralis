@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# onnxruntime-web WASM copied by scripts/copy-ort-wasm.mjs
+/public/ort/

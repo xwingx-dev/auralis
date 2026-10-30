@@ -3,6 +3,13 @@ import { NonRealTimeVAD } from "@ricky0123/vad-web";
 
 // Model weights are fetched from the Hugging Face Hub at runtime.
 env.allowLocalModels = false;
+// Serve the ONNX Runtime WASM from our own origin; the default jsDelivr copy arrives truncated.
+if (env.backends.onnx.wasm) {
+  env.backends.onnx.wasm.wasmPaths = {
+    mjs: `${self.location.origin}/ort/ort-wasm-simd-threaded.asyncify.mjs`,
+    wasm: `${self.location.origin}/ort/ort-wasm-simd-threaded.asyncify.wasm`,
+  };
+}
 
 // Whisper expects 16 kHz mono input.
 const WHISPER_SAMPLING_RATE = 16_000;

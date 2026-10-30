@@ -2,7 +2,14 @@ import { env, pipeline, type FeatureExtractionPipeline } from "@huggingface/tran
 import { decideIntent, INTENT_EXAMPLES, transcriptGuard } from "../../utils/intent";
 
 env.allowLocalModels = false;
-if (env.backends.onnx.wasm) env.backends.onnx.wasm.numThreads = 1;
+if (env.backends.onnx.wasm) {
+  env.backends.onnx.wasm.numThreads = 1;
+  // Serve the ONNX Runtime WASM from our own origin instead of the jsDelivr default.
+  env.backends.onnx.wasm.wasmPaths = {
+    mjs: `${self.location.origin}/ort/ort-wasm-simd-threaded.asyncify.mjs`,
+    wasm: `${self.location.origin}/ort/ort-wasm-simd-threaded.asyncify.wasm`,
+  };
+}
 
 let classifier: Promise<{ extractor: FeatureExtractionPipeline; examples: number[][] }> | null = null;
 

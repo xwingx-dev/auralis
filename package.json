@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "copy-ort": "node scripts/copy-ort-wasm.mjs",
+    "predev": "node scripts/copy-ort-wasm.mjs",
+    "prebuild": "node scripts/copy-ort-wasm.mjs",
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
